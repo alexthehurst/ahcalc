@@ -274,7 +274,7 @@ Use Control-C or type "exit" to exit this program."""
         if user_string == '':
             continue
         elif user_string in ('q', 'quit','exit'):
-            exit()
+            die()
         elif user_string in ('h', 'help', '?'):
             print(usage)
             continue
@@ -293,3 +293,8 @@ Use Control-C or type "exit" to exit this program."""
         if int(result) == result:
             result = int(result)
         print(result)
+
+
+def die(message="Bye!"):
+    exit(message)
+
