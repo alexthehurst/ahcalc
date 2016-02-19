@@ -161,9 +161,9 @@ def buildtree(tokens):
 
     while '^' in tree:
         exp_idx = tree.index('^')
-        if (type(tree[exp_idx-1]) not in [float, list] or
-                type(tree[exp_idx+1]) not in [float, list] or
-                exp_idx in [0, len(tree)-1]):
+        if (exp_idx in [0, len(tree)-1]
+                or type(tree[exp_idx-1]) not in [float, list]
+                or type(tree[exp_idx+1]) not in [float, list]):
             raise(ValueError(
                   "Exponent without appropriate groups or numbers "
                   "before and after it."))
@@ -186,9 +186,9 @@ def buildtree(tokens):
         # Consume the first * or / and replace with a sub-expression of
         # it with its arguments.
         muldiv_char = tree[muldiv_idx]
-        if (type(tree[muldiv_idx - 1]) not in [float, list] or
-                type(tree[muldiv_idx + 1]) not in [float, list] or
-                muldiv_idx in [0, len(tree)-1]):
+        if (muldiv_idx in [0, len(tree)-1]
+            or type(tree[muldiv_idx - 1]) not in [float, list]
+            or type(tree[muldiv_idx + 1]) not in [float, list]):
             raise(ValueError(
                   "* or / without appropriate groups or numbers "
                   "before and after it."))
@@ -207,14 +207,14 @@ def buildtree(tokens):
         elif '-' in tree:
             addsub_idx = tree.index('-')
         else:
-            raise(ValueError)
+            raise(ValueError("How did we reach this point in the code?"))
 
         # Consume the first + or - and replace with a sub-expression of
         # it with its arguments.
         addsub_char = tree[addsub_idx]
-        if (type(tree[addsub_idx-1]) not in [float, list] or
-                type(tree[addsub_idx+1]) not in [float, list] or
-                addsub_idx in [0, len(tree)-1]):
+        if (addsub_idx in [0, len(tree)-1]
+            or type(tree[addsub_idx-1]) not in [float, list]
+            or type(tree[addsub_idx+1]) not in [float, list]):
             raise(ValueError(
                   "+ or - without appropriate groups or numbers "
                   "before and after it."))
