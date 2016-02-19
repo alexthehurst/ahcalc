@@ -12,12 +12,12 @@ User-friendly arithmetic.
 
 ahcalc robustly supports whatever standard arithmetic notation you throw at it, including:
 
-    - Implied multiplication, such as '3(4+5)'
-    - Negated numbers or parentheses, such as '-4 * -(5+6)'
-    - Arbitrarily nested parentheses, such as '((5+3)*2)^(((-3/2)))'
-    - Mixed parentheses and square brackets
-    - The four basic operators, along with factorials (!) and exponents (^)
-    - Integers or floats
+- Implied multiplication, such as '3(4+5)'
+- Negated numbers or parentheses, such as '-4 * -(5+6)'
+- Arbitrarily nested parentheses, such as '((5+3)*2)^(((-3/2)))'
+- Mixed parentheses and square brackets
+- The four basic operators, along with factorials (!) and exponents (^)
+- Integers or floats
 
 The parser is implemented from scratch in Python, and doesn't rely on Python's standard arithmetic operators, but it may behave similarly for many cases. Intelligent error messages are given for all syntax errors. Parentheses and brackets are recursively traversed.
 
