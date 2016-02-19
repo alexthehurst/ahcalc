@@ -261,7 +261,8 @@ def calc(mystring):
     return(evaltree(buildtree(tokenize(mystring))))
 
 
-if __name__ == '__main__':
+
+def main():
     usage = """Usage: type any arithmetic sequence to calculate its value.
 Use +, -, *, /, !, ^, **, (), or [].
 Parentheses may be arbitrarily nested.
@@ -298,3 +299,9 @@ Use Control-C or type "exit" to exit this program."""
 def die(message="Bye!"):
     exit(message)
 
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("")
+        die()
