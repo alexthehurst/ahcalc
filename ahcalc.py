@@ -36,6 +36,13 @@ def tokenize(input_string):
     regularized_string = regularized_string.translate(
                                            string.maketrans('[]', '()'))
 
+    # Accept '**', which is equivalent to '^'. Convert it to '^' for standard
+    # handling.
+
+    regularized_string = re.sub(r'''\*\*''',
+                                r'''^''',
+                                regularized_string)
+
     # Easy way to convert negative numbers into a compatible form for
     # parsing. Convert hyphen-number at the start of the string, start
     # of brackets, or after another operator strings like this:
@@ -256,7 +263,7 @@ def calc(mystring):
 
 if __name__ == '__main__':
     usage = """Usage: type any arithmetic sequence to calculate its value.
-Use +, -, *, /, !, ^, (), or [].
+Use +, -, *, /, !, ^, **, (), or [].
 Parentheses may be arbitrarily nested.
 Whitespace is fine and will be discarded.
 Use Control-C or type "exit" to exit this program."""
