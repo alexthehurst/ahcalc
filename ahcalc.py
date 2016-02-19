@@ -21,16 +21,16 @@ def tokenize(input_string):
     # Validate for illegal characters
     if re.search(r'''[^0-9\.,\+\-\*/\(\)\[\]\!\^\s]''',
                  input_string, re.VERBOSE):
-        raise(ValueError,
+        raise(ValueError(
               "The only allowable characters are 0-9, +, -, *, /, !, "
-              "^, ., comma, parentheses, and square brackets.")
+              "^, ., comma, parentheses, and square brackets."))
         return
 
     # Validate for unbalanced brackets
     if (input_string.count('(') != input_string.count(')') or
             input_string.count('[') != input_string.count(']')):
 
-        raise(ValueError, "Unbalanced brackets or parentheses.")
+        raise(ValueError("Unbalanced brackets or parentheses."))
 
     regularized_string = re.sub(r'[\s,]', '', input_string)
     regularized_string = regularized_string.translate(
@@ -130,7 +130,7 @@ def buildtree(tokens):
         # The for loop never hit a break, which means we didn't find a
         # matching close parenthesis.
         else:
-            raise(ValueError, "Unmatched parentheses.")
+            raise(ValueError("Unmatched parentheses."))
 
         paren_end = paren_start + paren_len
 
@@ -145,9 +145,9 @@ def buildtree(tokens):
     while '!' in tree:
         fact_idx = tree.index('!')
         if type(tree[fact_idx-1]) not in [float, list] or fact_idx == 0:
-            raise(ValueError,
+            raise(ValueError(
                   "Factorial without an appropriate group or number "
-                  "preceding it.")
+                  "preceding it."))
         else:
             tree[fact_idx-1 : fact_idx+1] = \
                 [[math_funcs['!'], tree[fact_idx-1]]]
@@ -157,9 +157,9 @@ def buildtree(tokens):
         if (type(tree[exp_idx-1]) not in [float, list] or
                 type(tree[exp_idx+1]) not in [float, list] or
                 exp_idx in [0, len(tree)-1]):
-            raise(ValueError,
+            raise(ValueError(
                   "Exponent without appropriate groups or numbers "
-                  "before and after it.")
+                  "before and after it."))
         tree[exp_idx-1 : exp_idx+2] = \
             [[math_funcs['^'], tree[exp_idx-1], tree[exp_idx+1]]]
 
@@ -174,7 +174,7 @@ def buildtree(tokens):
         elif '*' in tree:
             muldiv_idx = tree.index('*')
         else:
-            raise(ValueError)
+            raise(ValueError("How did we reach this point in the code?"))
 
         # Consume the first * or / and replace with a sub-expression of
         # it with its arguments.
@@ -182,9 +182,9 @@ def buildtree(tokens):
         if (type(tree[muldiv_idx - 1]) not in [float, list] or
                 type(tree[muldiv_idx + 1]) not in [float, list] or
                 muldiv_idx in [0, len(tree)-1]):
-            raise(ValueError,
+            raise(ValueError(
                   "* or / without appropriate groups or numbers "
-                  "before and after it.")
+                  "before and after it."))
         tree[muldiv_idx-1 : muldiv_idx+2] = \
             [[math_funcs[muldiv_char],
                 tree[muldiv_idx-1], tree[muldiv_idx+1]]]
@@ -208,9 +208,9 @@ def buildtree(tokens):
         if (type(tree[addsub_idx-1]) not in [float, list] or
                 type(tree[addsub_idx+1]) not in [float, list] or
                 addsub_idx in [0, len(tree)-1]):
-            raise(ValueError,
-                  "+ or - without appropriate groups or numbers"
-                  "before and after it.")
+            raise(ValueError(
+                  "+ or - without appropriate groups or numbers "
+                  "before and after it."))
         tree[addsub_idx-1 : addsub_idx+2] = \
             [[math_funcs[addsub_char],
                 tree[addsub_idx-1], tree[addsub_idx+1]]]
@@ -246,8 +246,7 @@ def evaltree(expr):
     elif len(expr) == 3:
         return expr[0](evaltree(expr[1]), evaltree(expr[2]))
     else:
-        raise(ValueError,
-              "evaltree received a list with an invalid length.")
+        raise(ValueError("evaltree received a list with an invalid length."))
 
 
 def calc(mystring):
@@ -280,7 +279,10 @@ Use Control-C or type "exit" to exit this program."""
                   "probably can't use a number that large, anyway. Try "
                   "something more modest.")
             continue
-            
+
+        except ValueError as e:
+            print(e)
+            continue
         if int(result) == result:
             result = int(result)
         print(result)
