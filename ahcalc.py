@@ -34,7 +34,7 @@ def tokenize(input_string):
 
     regularized_string = re.sub(r'[\s,]', '', input_string)
     regularized_string = regularized_string.translate(
-                                           string.maketrans('[]', '()'))
+        string.maketrans('[]', '()'))
 
     # Accept '**', which is equivalent to '^'. Convert it to '^' for standard
     # handling.
@@ -103,7 +103,7 @@ def tokenize(input_string):
 def buildtree(tokens):
     """Parse a list of tokens into an evaluable tree.
 
-    Convert a list of tokens (as prepared by ahcalc.tokenize()) 
+    Convert a list of tokens (as prepared by ahcalc.tokenize())
     into a nested tree of binary or unary functions and their arguments.
     Recursively process the list to accommodate arbitrarily nested
     parentheses. Process operators in the correct order to respect
@@ -122,7 +122,6 @@ def buildtree(tokens):
     while '(' in tree:
 
         paren_start = tree.index('(')
-        paren_contents = []
         depth = 0
 
         for i, token in enumerate(tree[paren_start:]):
@@ -143,8 +142,8 @@ def buildtree(tokens):
 
         # recursion magic: support arbitrarily deeply nested sets of
         # parentheses
-        tree[paren_start:paren_end+1] = [buildtree(tree[
-                                            paren_start+1 : paren_end])]
+        tree[paren_start:paren_end+1] = \
+            [buildtree(tree[paren_start+1 : paren_end])]
 
     # Base case: there are no parentheses in this list, and we can group
     # the other operators and return the tree.
@@ -189,9 +188,9 @@ def buildtree(tokens):
         if (muldiv_idx in [0, len(tree)-1]
             or type(tree[muldiv_idx - 1]) not in [float, list]
             or type(tree[muldiv_idx + 1]) not in [float, list]):
-            raise(ValueError(
-                  "* or / without appropriate groups or numbers "
-                  "before and after it."))
+                raise(ValueError(
+                      "* or / without appropriate groups or numbers "
+                      "before and after it."))
         tree[muldiv_idx-1 : muldiv_idx+2] = \
             [[math_funcs[muldiv_char],
                 tree[muldiv_idx-1], tree[muldiv_idx+1]]]
@@ -215,9 +214,9 @@ def buildtree(tokens):
         if (addsub_idx in [0, len(tree)-1]
             or type(tree[addsub_idx-1]) not in [float, list]
             or type(tree[addsub_idx+1]) not in [float, list]):
-            raise(ValueError(
-                  "+ or - without appropriate groups or numbers "
-                  "before and after it."))
+                raise(ValueError(
+                      "+ or - without appropriate groups or numbers "
+                      "before and after it."))
         tree[addsub_idx-1 : addsub_idx+2] = \
             [[math_funcs[addsub_char],
                 tree[addsub_idx-1], tree[addsub_idx+1]]]
@@ -261,7 +260,6 @@ def calc(mystring):
     return(evaltree(buildtree(tokenize(mystring))))
 
 
-
 def main():
     usage = """Usage: type any arithmetic sequence to calculate its value.
 Use +, -, *, /, !, ^, **, (), or [].
@@ -274,7 +272,7 @@ Use Control-C or type "exit" to exit this program."""
         user_string = raw_input('ahcalc: ')
         if user_string == '':
             continue
-        elif user_string in ('q', 'quit','exit'):
+        elif user_string in ('q', 'quit', 'exit'):
             die()
         elif user_string in ('h', 'help', '?'):
             print(usage)
